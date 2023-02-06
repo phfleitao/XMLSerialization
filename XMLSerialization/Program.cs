@@ -8,4 +8,4 @@ var produtosXML = produtos.ToXML();
 foreach (var produto in produtos.ListaProdutos)
 {
     Console.WriteLine(produto.Nome);
-}D:\DEV\Workspace\Estudos\Testes e Experime
+}

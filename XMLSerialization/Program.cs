@@ -3,15 +3,29 @@ using BenchmarkDotNet.Running;
 using System.Text;
 using XMLSerialization.Helpers;
 
-BenchmarkRunner.Run<MemoryBenchmarkerDemo>();
+BenchmarkRunner.Run<ProcessBenchmark>();
+//ProcessarXmlSemRooElement();
+
+static void ProcessarXmlSemRooElement()
+{
+    var produtos = new Produtos();
+    produtos.ListaProdutos = new[]
+    {
+        new Produto(){ Nome = "Nome 1" },
+        new Produto(){ Nome = "Nome 2" },
+        new Produto(){ Nome = "Nome 3" }
+    };
+    produtos.Obrigatrio = true;
+    Console.Write(produtos.ToXmlDocument().SelectNodes("/Produtos/*").ToXmlString());
+}
 
 [MemoryDiagnoser]
-public class MemoryBenchmarkerDemo
+public class ProcessBenchmark
 {
     private const int LIMITE = 1000;
 
     [Benchmark]
-    public Produtos SerializeTests()
+    public Produtos? SerializeTests()
     {
         var sb = new StringBuilder();
         sb.Append("<Produtos>");
@@ -37,6 +51,6 @@ public class MemoryBenchmarkerDemo
             produtos.ListaProdutos[i] = new Produto() { Nome = texto };
         }
 
-        return produtos.ToXML();
+        return produtos.ToXmlString();
     }
 }

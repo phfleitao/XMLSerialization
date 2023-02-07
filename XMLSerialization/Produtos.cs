@@ -1,11 +1,16 @@
 ﻿using System.Xml.Serialization;
 
-[Serializable()]
-[XmlRoot("Produtos")]
+[Serializable]
+//[XmlRoot("Produtos")]
 public class Produtos
 {
-    [XmlElement("Produto")]
+    //[XmlElement("Produto")]
+    [XmlArray("Produtos")]
+    [XmlArrayItem("Produto")]
     public Produto[] ListaProdutos { get; set; }
+    
+    [XmlElement("Obrigatrio")]
+    public bool Obrigatrio { get; set; }
 }
 
 public class Produto

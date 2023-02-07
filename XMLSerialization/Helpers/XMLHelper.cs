@@ -8,16 +8,16 @@ namespace XMLSerialization.Helpers
     {
         public static void ToXML<T>(this T objectValue, string filePath) where T : class
         {
-            var serializer = new XmlSerializer(objectValue.GetType());
+            var serializer = new XmlSerializer(typeof(T));
             using (var writer = new StreamWriter(filePath))
             {
                 serializer.Serialize(writer, objectValue);
             }
         }
 
-        public static T ToObject<T>(this T objectValue, string filePath) where T : class
+        public static T? ToObject<T>(this T objectValue, string filePath) where T : class
         {
-            var serializer = new XmlSerializer(objectValue.GetType());
+            var serializer = new XmlSerializer(typeof(T));
             using (var reader = new StreamReader(filePath))
             {
                 return serializer.Deserialize(reader) as T;
@@ -26,7 +26,7 @@ namespace XMLSerialization.Helpers
 
         public static string ToXML<T>(this T objectValue) where T : class
         {
-            var serializer = new XmlSerializer(objectValue.GetType());
+            var serializer = new XmlSerializer(typeof(T));
             using (var writer = new Utf8StringWriter())
             {
                 //Remove Namespace
@@ -38,11 +38,9 @@ namespace XMLSerialization.Helpers
             }
         }
 
-        public static T ToObject<T>(this string xmlValue) where T : class, new()
+        public static T? ToObject<T>(this string xmlValue) where T : class, new()
         {
-            var t = new T();
-
-            var serializer = new XmlSerializer(t.GetType());
+            var serializer = new XmlSerializer(typeof(T));
             using (var reader = new StringReader(xmlValue))
             {
                 return serializer.Deserialize(reader) as T;
